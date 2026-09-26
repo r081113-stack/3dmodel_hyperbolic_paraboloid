@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>双曲放物面 z = x^2 - y^2</title>
+  <!-- Plotly.js の読み込み -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
+    #plot { width: 90vw; height: 90vh; }
+  </style>
+</head>
+<body>
+
+<div id="plot"></div>
+
+<script>
+  // 格子点の生成 (-2 から 2 まで 50分割)
+  const size = 50;
+  const x = [], y = [], z = [];
+  const range = 2;
+
+  for (let i = 0; i < size; i++) {
+    x[i] = -range + (2 * range * i) / (size - 1);
+    y[i] = -range + (2 * range * i) / (size - 1);
+  }
+
+  // z = x^2 - y^2 の計算
+  for (let i = 0; i < size; i++) {
+    z[i] = [];
+    for (let j = 0; j < size; j++) {
+      z[i][j] = Math.pow(x[j], 2) - Math.pow(y[i], 2);
+    }
+  }
+
+  // 3D Surface データの定義
+  const data = [{
+    z: z,
+    x: x,
+    y: y,
+    type: 'surface',
+    colorscale: 'Viridis'
+  }];
+
+  const layout = {
+    title: '双曲放物面 z = x² - y²',
+    autosize: true,
+    scene: {
+      xaxis: { title: 'X' },
+      yaxis: { title: 'Y' },
+      zaxis: { title: 'Z' }
+    }
+  };
+
+  Plotly.newPlot('plot', data, layout);
+</script>
+
+</body>
+</html>
